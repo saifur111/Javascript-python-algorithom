@@ -1,0 +1,9 @@
+Given an integer number returns a binary String
+
+Swift Implementation
+
+func intToBinary(_ N: Int) -> String {
+    return String(N, radix: 2)
+}
+
+assert(intToBinary(2) == "10")
