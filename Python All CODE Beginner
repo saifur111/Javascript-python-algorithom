@@ -1,0 +1,1480 @@
+class X:
+    def show(self, name):
+        print("My name is: " + name)
+        
+x = X()
+x.show("Ahsan")
+# --------------------
+#      Exception
+# --------------------
+'''
+Exception are object in Python that arise runtime to handle error
+'''
+
+## Hello Exception
+def div(x, y):
+    return x / y
+    
+print ( div(4, 2) )
+# print ( div(2, 0) ) # division by zero error
+
+## try catch block
+def div(x, y):
+    try:
+        result = x / y
+    except ZeroDivisionError:
+        print ("Can not divide by zero")
+        return None
+        
+    return result 
+    
+print ( div(4, 2) )
+print ( div(2, 0) )
+
+
+## Catch all exceptions   
+def div(x, y):
+    try:
+        result = x / y
+    except ZeroDivisionError:
+        print ("Can not divide by zero")
+        return None
+    except:
+        print ("Error occurred")
+        return None
+        
+    return result 
+    
+print ( div('5', '4') )
+print ( div(2, 0) )
+  
+## Catch all exceptions 2  
+def div(x, y):
+    try:
+        result = x / y
+    except Exception as e:
+        print ("Error happened: ", e)
+        return None
+    return result
+    
+print ( div('4', '2') )
+print ( div(4, 0) )
+    
+## else block
+try:
+    div_result = div(8, 2)
+    # div_result = div(2, 0)
+except:
+    print ("Division by zero not possible")
+else:
+    print ("Div result is: " + str(div_result))
+    
+## finally block for clean up actions
+def div(x, y):
+    try:
+        result = x / y 
+    except ZeroDivisionError:
+        print ("Error Division by Zero")
+    else:
+        print ("Result is: ", result)
+    finally:
+        print ("Execute finally clause")
+        
+div (100, 10)
+div (2, 0)
+# div ('30', '5') # TypeError
+
+### When finally is necessary
+'''
+# sample example for discussion
+try:
+    big_data = read_from_internet()
+except:
+    pass 
+else:
+    # do something on big_data
+finally:
+    big_data = None
+'''
+    
+## Ignore exception by pass
+try:
+    div_result = div(2, 0)
+except:
+    pass # do nothing
+else:
+    print ("Div result is: " + str(div_result))
+    
+## Multiple exceptions 
+try:
+    disk_file = open('filename')
+except (FileNotFoundError, PermissionError): # using tuple
+    print ("Can not open the file")
+    
+try:
+    disk_file = open('filename')
+except FileNotFoundError:
+    print ("File doesn't exist")
+except PermissionError:
+    print ("Permission denied to open the file")
+    
+## Creating custom exception
+class VowelNotAccepted(Exception):
+    def __init__(self, message, status):
+        super().__init__(message, status)
+        self.message = message
+        self.status  = status
+        
+def check_chars(word):
+    for char in word:
+        if char.lower() in ['a', 'e', 'i', 'o', 'u']:
+            raise VowelNotAccepted("Vowel is not accepted", 101)
+    return word
+            
+# print ( check_chars("love"))
+            
+try:
+    print ( check_chars("love")) 
+    # print ( check_chars('My') )
+except Exception as e:
+    print ("Error reason: " , e.message)
+    
+
+# Built-in exceptions
+'''
+https://docs.python.org/3/library/exceptions.html
+'''    
+# --------------------------
+#      Script arguments
+# --------------------------
+import sys
+from mspack import msmath
+
+print (sys.argv)
+
+def process_command(*args):
+    command = args[0]
+    x       = int(args[1])
+    y       = int(args[2])
+
+    if command == 'sum':
+        print ('Sum is: ',             msmath.sum(x, y))
+    if command == 'sub':
+        print ('Subtraction is: ',     msmath.subtract(x, y))
+    if command == 'mul':
+        print ('Multiplication is: ',  msmath.multiplication(x, y))
+    if command == 'div':
+        print ('Division is: ',        msmath.division(x, y))
+        
+if len (sys.argv) >= 4:
+    # valid commands: sum sub mul div
+    command = sys.argv[1].lower()
+    x       = sys.argv[2]
+    y       = sys.argv[3]
+    
+    try:
+        process_command(command, x, y)
+    except Exception as e:
+        print ("Error in process_command: ", e)
+    
+else:
+    print ("Command and Paramters are not sufficient")
+    
+'''
+Run the script: 
+    python3 chapter11.py sum 2 4
+    python3 chapter11.py sub 2 4
+    python3 chapter11.py mul 2 4
+    python3 chapter11.py div 4 2
+    python3 chapter11.py div 4 0
+'''
+
+# ----------------------------------
+#      Sets
+# ----------------------------------
+'''
+An unordered collection with no duplicate elements.
+'''
+
+## Empty Set
+num_set = set() # {} reserved for dictionary
+
+## Add elements
+num_set.add(1)
+num_set.add(2)
+num_set.add(3)
+num_set.add(1)
+print (num_set) # unique values 1 is shown only one time
+
+## Set operations
+set_a = {1, 2, 3, 4, 5, 1}
+set_b = {6, 5, 4, 7, 8, 8}
+print ("Set A: ", set_a)
+print ("Set B: ", set_b)
+
+print ( "A-B ", set_a - set_b ) # items in set_a but not in set_b
+print ( "A|B ", set_a | set_b ) # items in set_a or set_b or both
+print ( "A&B ", set_a & set_b ) # common items in set_a and set_b
+print ( "A^B ", set_a ^ set_b ) # items in set_a or set_b but not both
+
+## Check item exist or not
+set_country = {'bangladesh', 'malaysia', 'singapore', 'usa'}
+country = 'bangladesh'
+
+if country in set_country:
+    print ( country.title(), 'exists ')
+
+
+# ----------------------------------
+#      Conditional Expression
+# ----------------------------------
+'''
+In Java, C++ there is ternary operator
+    condition ? expression1 : expression2
+In Python 3 the equivalent is called conditional expression
+    expression1 if condition else expression2
+    
+single line statement assign value directly to the variable
+'''
+sum = 100
+num = 10
+sum += num if num % 2 == 0 else 0
+print (sum)
+
+'''
+4 lines code ordinary way
+if num % 2 == 0:
+    sum += num 
+else:
+    sum += 0
+'''
+
+# ----------------------------------
+#      Comprehension Syntax
+# ----------------------------------
+'''
+It is produced one series of values based on processing of another series
+Syntax List
+[ expression for value in iterable if condition ]
+'''
+
+## List comprehension
+num_squares = [v * v for v in range(1, 11)]
+print (num_squares)
+
+### normal way
+num_squares = [] 
+for v in range(1, 11):
+    num_squares += [v * v]
+print (num_squares)
+
+### odd num only 
+num_squares = [v * v for v in range(1, 11) if v%2 != 0]
+print (num_squares)
+
+## Dictionary expression
+num_dict_sq = {v: v * v for v in range(1, 11) if v%2 != 0}
+print (num_dict_sq)
+
+## Set expression
+num_set_sq = {v * v for v in range(1, 11) if v%2 != 0}
+print (num_set_sq)
+#################
+# Comments
+
+""" 
+Multiline 
+Comments
+"""
+
+# Variable
+
+name = "Grocery List"
+detail = 'Buy from supershop'
+number_of_items = 5
+budget = 2500 # taka
+amount_of_rice = 1.56 # kg
+should_we_buy_today = True
+
+print( name, type(name) )
+print( detail, type(detail) )
+print( number_of_items, type(number_of_items) )
+print( amount_of_rice, type(amount_of_rice) )
+print( should_we_buy_today,  type(should_we_buy_today) )
+
+
+# Operators
+
+number_of_items = number_of_items + 2
+print( number_of_items )
+
+number_of_items += 2
+print( number_of_items )
+
+amount_of_rice += 2.3
+print ( amount_of_rice )
+
+amount_of_rice -= 2
+print ( amount_of_rice )
+
+number_of_items *= 3
+print (number_of_items)
+
+number_of_items /= 3
+print ( number_of_items, type(number_of_items) )
+number_of_items = int(number_of_items)
+print ( number_of_items, type(number_of_items) )
+
+## Division
+
+x = 10
+y = 2
+result = x / 2
+print (result)
+
+result = int (x / 2)
+print (result)
+
+y = 3
+result = x / y
+print (result)
+
+## Remainder opertor
+result = int (x / y)
+print (result)
+
+print (x, y, x % y)
+
+x = 10.0
+y = 3.0
+print (x, y, x % y)
+
+## Negative value 
+x = 10
+x = -x
+print (x)
+
+## Divmod
+x = 10
+y = 3
+result = divmod(x, y)
+print (result)
+
+## Exponential
+
+x = 2
+result = x ** 4
+print (result)
+
+result = pow (2, 4)
+print (result)
+-------------------------
+# Statement
+# The smallest part of codes that python interpreter can execute is called statement
+# প্রোগ্রামিংয়োর ভাষায় কোডের ক্ষুদ্রতম অংশ যা পাইথন ইনটারপেটার এক্সকিউট করতে পারে সেটাই স্টেটমেন্ট
+
+print ("Hello World")
+x = 2
+x = 2 + 1
+
+
+# Expression
+# The combination of value, variable and operators are called expression
+# ভ‍্যালু, ভ‍্যারিয়েবল এবং অপারেটর এর কম্বিনেশন কেই এক্সপ্রেশন বলে
+x = 17
+y = x + 2 
+
+
+# String
+
+# Accessing string character
+title = "Python Course"
+print ( title[0], title[1], title[-1], title[-2])
+
+# String operation
+name = 'jonathon swift'
+print ( name.title() )
+print ( name.upper() )
+print ( name.lower() )
+
+# String Concatenation
+
+first_name = "Steve"
+last_name  = "Jobs"
+name = first_name + ' ' + last_name
+print ( name )
+
+print ( first_name + ' ' + last_name )
+
+# Newline
+print (first_name + "\n" + last_name)
+
+# Whitespace
+name = "        Mr. X        "
+print('_' + name + '_')
+print('_' + name.lstrip() + '_')
+print('_' + name.rstrip() + '_')
+print('_' + name.strip() + '_')
+print('_' + name.lstrip().rstrip() + '_')
+
+# Printing Single and Double Quote
+shop_name = "Rahim's Shop"
+print(shop_name)
+
+shop_name = 'Rahim"s Shop'
+print(shop_name)
+
+shop_name = 'Rahim\'s Shop'
+print(shop_name)
+
+# Matching text at start and at the end
+filename = 'bigdata.txt'
+print ( filename.endswith('.txt') )
+print ( filename.startswith('bi') )
+
+# Find word in sentence
+sentence = "A quick brown fox jumps over the lazy dog"
+print ( sentence.find('fox') )
+print ( sentence.find('foxs') ) # -1 the value not found
+
+# Replace text
+sentence = "A quick brown fox jumps over the lazy dog"
+sentence = sentence.replace('fox', 'tiger')
+print ( sentence )
+
+# Print separator
+x = 'Dhaka'
+y = 'Bogra'
+z = 'Comilla'
+
+print (x + '| ' + y + '| ' + z)
+print (x, y, z, sep='| ')
+
+# String interpolation
+# Old style
+person = '%s\'s age is %d'
+print(person % ('Bill', 55) )
+
+# New style
+person = '{name}\'s age is {age}'
+print(person.format(name='Bill', age=55))
+print(person.format(name='Steve', age=50))
+
+print()
+
+# Formatted string literal Python 3.6+ 
+name = 'Mark'
+age  = 30
+person = f'{name}\'s age is {age}'
+print(person)
+
+print()
+
+# String slice
+name = "Taylor Swift"
+print (name[0: 6])
+print (name[:6])
+print (name[7:])
+print (name[7:-1])
+------------------------------
+# Condition
+
+num = 100
+if num % 2 == 0:
+    print ("Even Number")
+    print ("Thank You")
+
+# to run this part remove multipart comment
+'''
+num = input("Please enter a number: ")
+num = int(num)
+if num % 2 == 0:
+    print ("Even Number")
+    print ("Thank You")
+else:
+    print ("Odd Number")
+    print ("Come Again")
+'''
+
+# to run this part remove multipart comment
+# if-elif-else chained condition
+'''
+num = input("Please enter a number: ")
+num = int(num)
+if num == 50:
+    print ("Half Century")
+elif num == 100:
+    print ("Century")
+elif num > 100:
+    print ("Century +")
+else:
+    print ("Unknown number")
+    
+'''
+
+# Logical operators and or
+num = 3
+if num >= 3 and num < 5:
+    print ('3 to 5')
+
+num = 6
+if num >= 3 and num < 5:
+    print ('3 to 5')
+else:
+    print ("5 +")
+    
+num = -2
+if num >= 3 or num == -2:
+    print ('3 + or -2')
+
+# Compare string
+name1 = "Ahsan"
+name2 = "ahsan"
+
+if name1 == name2:
+    print ("Same Name")
+else:
+    print ("Name doesn't match")
+    
+if name1.lower() == name2.lower():
+    print ("Same Name by lower method")
+    
+# Not equals to
+name = "Unknown Person"
+if name != "Steve Jobs":
+    print (name)
+    
+# nested condition
+x = 5
+if x < 2:
+    print ("less than 2")
+else:
+    if x == 3:
+        print ("x is 3")
+    else:
+        if x == 5:
+            print ("x is 5")
+
+# iteration 
+
+# while loop 
+'''
+while condition:
+    body
+'''
+
+
+x = 1
+print (x)
+x += 1
+print (x)
+x += 1
+print (x)
+x += 1
+print (x)
+x += 1
+print (x)
+
+# 5 time repetition
+x = 1
+while x <= 5:
+    print (x)
+    x += 1
+    
+# infinite loop
+x = 1
+while True:
+    print (x)
+    x += 1
+    if x > 10:
+        break
+
+# Omit even number 1 to 20
+x = 0
+while x < 20:
+    x += 1
+    if x % 2 == 0:
+        continue 
+    print (x)
+    
+# for loop
+'''
+for element in iterable:
+    body
+'''
+
+# sum 1 to 10
+sum = 0
+for num in range(1, 11):
+    print (num)
+    sum += num
+print ("Sum is {sum}".format(sum=sum))
+
+# String characters by for loop
+title = "Apple Inc."
+for char in title:
+    print (char)
+    ------------------------
+    # List
+cars = ['honda', 'toyota', 'audi']
+print(cars)
+print (cars[0])
+print (cars[2])
+
+# Mixed List
+mix_list = ['honda', 29, 4.4, False]
+print (mix_list)
+
+# Last element of list
+print (mix_list[-1])
+
+# empty list
+cars = [] 
+# print(cars[0]) will throw error
+
+# 2D List or Matrix
+'''
+1 2 3 4 5 
+4 5 6 7 8 
+1 1 1 1 1 
+0 0 0 0 0 
+'''
+# Nested list
+matrix = [ [1, 2, 3, 4, 5],
+           [4, 5, 6, 7, 8],
+           [1, 1, 1, 1, 1],
+           [0, 0, 0, 0, 0]
+          ]
+                    
+for x in matrix:
+    for y in x:
+        print (y, end=' ')
+    print()
+
+
+# list slicing
+numbers_list = [1, 2, 3, 4, 5]
+print ( numbers_list[0 : 2] )
+print ( numbers_list[2 : -2])
+
+# list iteration by for loop
+cars = ['honda', 'toyota', 'audi']
+for car in cars:
+    print (car)
+    if (car == 'toyota'):
+        print ("I love toyota")
+    
+# sum of list numbers
+list_of_number = [1, 2, 3, 4, 5]
+sum = 0
+for num in list_of_number:
+    sum += num
+print ("Sum is: {sum}".format(sum=sum))
+
+list_of_number = [1, 2, 'Math', 4, 5.5, 5]
+sum = 0
+for num in list_of_number:
+    if type(num) == int:
+        sum += num
+print ("Sum is: {sum}".format(sum=sum))
+
+# List modification
+mix_list = ['honda', 29, 4.4, False]
+print(mix_list)
+mix_list[0] = 'toyota'
+print(mix_list)
+
+# Adding item in list
+mix_list.append('audi')
+print(mix_list)
+
+mix_list += ['mercedez'] # shortcut version for adding item
+print(mix_list)
+
+mix_list.insert(2, 'proton')
+print(mix_list)
+
+# Deleting item in list
+cars = ['honda', 'toyota', 'audi']
+del cars[0]
+print( cars )
+
+# Get and remove item using pop()
+cars = ['honda', 'toyota', 'audi']
+last_car = cars.pop() # last item
+print(cars, "\n", last_car)
+
+cars = ['honda', 'toyota', 'audi']
+second_car = cars.pop(1) # second item
+print(cars, "\n", second_car)
+
+# Remove list item by value
+numbers = [1, 2, 3, 4, 5, 6, 5]
+numbers.remove(5) # remove the first value it finds in list
+print(numbers)
+
+# Splitting String into List items
+import re
+cars = "toyota, honda, bmw, audi"
+# cars = ['toyota', 'honda', 'bmw', 'audi']
+car_list = re.split(',', cars)
+print(car_list)
+
+
+# List's string item concatnation
+quote = ['love', 'is', 'blind']
+print(quote)
+quote_str = ' '.join(quote)
+print(quote_str)
+
+# Sorting list
+cars = ['toyota', 'honda', 'audi', 'bmw']
+print( cars )
+cars.sort()
+print( cars )
+cars.sort(reverse=True)
+print( cars )
+
+cars = ['toyota', 'honda', 'audi', 'bmw']
+print (sorted(cars)) # doesn't affect original list
+
+# Reversing list
+numbers = [1, 2, 3, 4]
+numbers.reverse()
+print(numbers)
+
+# List length
+numbers = [1, 2, 3, 4]
+print (len(numbers))
+
+# checking value exist in list
+numbers = [1, 2, 3, 4]
+if 2 in numbers:
+    print ("2 is in number")
+
+if 20 not in numbers:
+    print ("20 does not exist")
+    --------------------------
+    
+# --------------------
+#      tuple
+# --------------------
+
+# Syntax
+tp = 1, 2, 'bill', 4.4, False
+print (tp, type(tp))
+
+# parentheses are optional
+tp = (1, 2, 'bill', 4.4, False) 
+print (tp)
+
+# this is not tuple
+a, b = 1, 2
+print (a)
+s = ('hi')
+print (s, type(s))
+
+# Access
+tp = 1, 2, 'bill', 4.4, False
+print (tp[0], tp[2], tp[-1], sep='|')
+
+# Iteration 
+tp = 1, 2, 'bill', 4.4, False
+for t in tp:
+    print (t)
+    
+# Comparing
+t1 = 1, 2, 3
+t2 = 1, 2, 3  # change order and discuss
+if t1 == t2:
+    print ("t1 and t2 values are equal")
+    
+# Immutable
+t1 = 1, 2, 3
+# t1[0] = 2 #'tuple' object does not support item assignment
+
+# Unpacking or Multiple assignment
+t1 = 5, 7, 11
+x, y, z = t1
+print (x, y, z, sep = ' | ')
+
+# x, y = t1 # too many values to unpack
+t1 = 5, 7, 11
+x, y, _ = t1
+print (x, y, sep = ' | ') # print (x, y, _, sep = ' | ')
+
+# --------------------
+#      dictionary
+# --------------------
+
+# Syntax
+'''
+dict = {key : value}
+'''
+
+dict = {} # empty dictionary
+dict['name'] = 'Swift'
+dict['age']  = 55
+print ( dict['name'], '|', dict['age'] )
+
+dict = {'bill' : '01010101', 'steve' : '0404040'}
+print (dict['bill'])
+print (dict['steve'])
+print (len(dict))
+
+# Modification
+shop_items_price_kg = {'rice' : 44, 'flour' : 33}
+print ( shop_items_price_kg )
+
+# Adding new item
+shop_items_price_kg['oil'] = 39
+print ( shop_items_price_kg )
+
+# Deleting item 
+del shop_items_price_kg['oil'] # removes key | value pair
+print ( shop_items_price_kg )
+
+# Editing item 
+shop_items_price_kg['rice'] = 90
+print ( shop_items_price_kg )
+
+# Iteration 
+# key and value
+asci_dict = {'a':97, 'b':98, 'c':99, 'd':100}
+
+for key, value in asci_dict.items(): 
+    print (key, value, sep='->')
+    
+'''
+# Error because it will search only keys
+for key, value in asci_dict:
+    print (key, value, sep='->')
+'''
+
+# Iterate key only
+for key in asci_dict: # for key in asci_dict.keys() works same
+    print (key)
+
+# Iterate value only
+for value in asci_dict.values():
+    print (value)
+    
+# Sorted keys while iterate
+shop_items_price_kg = {
+    'rice' : 44, 
+    'flour' : 33, 
+    'oil': 32
+}
+print(shop_items_price_kg)
+for key in sorted(shop_items_price_kg.keys()): # to remove confusion we used .keys()
+    print (key, shop_items_price_kg[key])
+    -----------------------------------
+   # --------------------
+#      function
+# --------------------
+
+# Define
+# sequence of statements can be defined as function
+print ('Hello World')
+for x in range(0,10):
+    print ("HI", str(x))
+    
+def welcome():
+    print ('Hello World')
+    for x in range(0,10):
+        print ("HI", str(x))
+        
+welcome()
+
+# Built in function
+'''
+print('Something')
+len('hello world')
+max(2, 4)
+'''
+
+# Parameter
+def welcome(name): # name is parameter
+    print (f"Welcome {name}")
+    
+welcome('Bill') # 'Bill' is argument
+welcome('Steve')
+
+# Positional argument
+def person_details(name, age, country):
+    print (name, age, country, sep='|')
+    
+person_details('Bill', 55, 'US')
+person_details('Swift', 40, 'Canada')
+
+# Keyword argument
+def person_details(name, age, country):
+    print (name, age, country, sep='|')
+    
+## argument order doesn't matter
+person_details(name='Bill', age=55, country='US')
+person_details(age=40, country='Canada', name='Swift')
+
+# Default value 
+def person_details(name, age, country='Bangladesh'):
+    print (name, age, country, sep='|')
+    
+person_details(name='Bill', age=55, country='US')
+person_details(name='Swift', age=40) # default value keyword arg
+person_details('Alam', 30) # default value positional arg
+
+## non-default argument follows default argument
+'''
+def person_details(name='', age, country='Bangladesh'):
+    print (name, age, country, sep='|')
+'''
+
+# Return value
+def square (num):
+    return num * num
+    
+print ( square(2), square(2.2), sep='|' )
+
+def get_name(first_name, last_name):
+    return first_name + " " + last_name
+
+print ( get_name('Bill', 'Gates') )
+print ( get_name('Steve', 'Jobs'))
+
+# Optional argument
+def get_name(first_name, last_name, middle_name=''):
+    complete_name = first_name
+    if middle_name:
+        complete_name += ' ' + middle_name
+    
+    complete_name += ' ' + last_name
+    return complete_name
+
+print ( get_name('Bill', 'Gates') )
+print ( get_name('Bill', 'Gates', 'S') )
+
+print()
+# Function are first-class object 
+def str_upper(str):
+    return str.upper()
+
+print(str_upper("hello"))
+stup = str_upper
+print(stup("hello"))
+
+
+## function can be passed as argument
+def greetings(func):
+    greet = func("Welcome, Nice to meet you")
+    print(greet)
+    
+greetings(str_upper)
+
+## Functional programming
+up_list = list(map(str_upper, ["life", "is", "Cool"]))
+print(up_list)
+
+print()
+## Nested Function
+def hello_world(str):
+    def print_upper(s):
+        return s.upper()
+        
+    print(print_upper(str))
+
+hello_world("mango")
+
+print()
+# Reference type parameter
+
+## Value Type
+num = 100
+def change_num(n):
+    n += 100 
+    print ( f"Inner num: {n}")
+change_num(num)
+print ( 'Outside num: ' + str(num))
+
+## List, Dictionary 
+num_list = [1, 2, 3, 4, 5]
+num_dict = {'one': 1, 'two': 2, 'three': 3}
+def change_num_list(list, dict):
+    del list[0]
+    list[-1] = 50
+    
+    del dict['one']
+    dict['three'] = 33
+    print ("Inner List: ", list)
+    print ("Inner Dict: ", dict)
+
+print ( "Before" )
+print ( "Outer List: ", num_list)
+print ( "Outer Dict: ", num_dict)
+change_num_list(list=num_list, dict=num_dict)
+print ( "After" )
+print ( "Outer List: ", num_list)
+print ( "Outer Dict: ", num_dict)
+
+# Arbitrary number of arguments
+def students(*students_name):
+    print (students_name, type(students_name))
+    for student in students_name:
+        print (student)
+students('Bill', 'Steve', 'Jonathon', 'Jack', 'Bionic')
+students()
+students('Jack')
+
+## Positional and Arbitrary arguments mixing
+def students(captain, *other_students):
+    print ('Captain ', captain)
+    print ('Others ', other_students)
+      
+students('Mahmud', 'Fuad', 'Emon', 'Maruf', 'Arif')
+
+# Arbitrary keyword arguments 
+def students(captain, **other_students):
+    print ('Captain ', captain)
+    print ('Others ', other_students)
+    
+students(captain='Mahmud', second_captain='fuad', third_captain='emon')
+
+## Arbitrary keyword arguments are optional
+students(captain='Mahmud')
+
+# --------------------
+#      Lambda
+# --------------------
+
+## Anonymous or Inline function
+add_numbers = lambda x, y: x + y # auto return lambda expression
+print( add_numbers(2, 3) )
+
+bd_public = lambda name: "Bangladeshi Citizen: " + name
+print ( bd_public('Mahmud') )
+
+## Limitation of lambda expression
+'''
+single expression always returns a value
+we can't include other if-else logic or iteration within it
+'''
+-------------------------
+# Object-oriented programming or in short OOP is a computer programming paradigm where 
+# data and related methods are encapsulated together.
+
+# --------------------
+#      class
+# --------------------
+
+# Global varible
+restaurant_name  = '7 Eleven'
+restaurant_owner = 'Rahim'
+
+def restaurant_details(): # function
+    print (restaurant_name , restaurant_owner)
+    
+def another_restaurant():
+    # Local variable
+    restaurant_address = 'Bogra'
+    print (restaurant_name , restaurant_owner)
+    print (restaurant_address)
+
+restaurant_details()
+another_restaurant()
+# print (restaurant_address) # shows error
+# print (restaurant_name)
+
+# Syntax 
+'''
+class ClassName (ParentClass):
+    class variables
+    instance methods
+'''
+
+class Restaurant: # () parentheses optional
+    def details(self): # instance method
+        print (self.name , self.owner)
+        
+    def details_with_address(self, address):
+        # Local variable
+        self.details()
+        print (address)
+        
+## Instantiation
+restaurant1 = Restaurant()
+# creating instance variable
+restaurant1.name  = '7 Eleven'
+restaurant1.owner = 'Rahim'
+
+# calling instance method will replacee self argument by
+# instance object here restaurant1
+restaurant1.details()  
+restaurant1.details_with_address('Bogra')
+# checking object type
+print ( type(restaurant1) )
+
+print()
+## Second example 
+class Person:
+    def __init__(self, name="", age=0):
+        # constructor when an instance created
+        # if defined calls automatically during instantiation
+        # used fo setting up initial configuration
+        # self is required as first parameter
+        # self.variable available all methods
+        # variables called attributes in class
+        # __init__ is called magic method or dunder method
+        self.name = name 
+        self.age  = age 
+        
+        # auto return instance of the class
+        
+    def details(self):
+        print (self.name, self.age, sep=' | ')
+        
+bill1 = Person()
+bill1.details()
+
+bill2 = Person('Bill', 55) # self pass automatically
+bill2.details()
+print ( bill2.name, bill2.age)
+'''
+The first argument of every class method, including init, is always a reference to the current instance of the class. By convention, this argument is always named self but anything else can also be used
+'''
+
+print()
+## Third example
+people_list = []
+for x in range(0,3):
+    person = Person("Person "+str(x), 30+x)
+    people_list += [person]
+
+for x in people_list:
+    x.details()
+    
+print()
+#-------------------------------------------
+# Class variable and Instance variable Details
+class Alien:
+    legs = 5 # class variable
+    
+    def __init__(self, name):
+        self.name = name # instance variable
+        
+## Instantiation
+alien1 = Alien('Maven')
+alien2 = Alien('Woven')
+
+print(alien1.name, alien2.name) # accessing instance variable
+print(alien1.legs, alien2.legs) # accessing class variable
+
+## Updating class variable
+Alien.legs = 10
+print(alien1.legs, alien2.legs)
+
+
+## Updating class variable by instance
+alien1.legs = 1 # it creates a shadow instance variable
+print(alien1.legs, alien2.legs) # alien1 now using instance variable
+
+## removing shadow instance variable from instance
+del alien1.legs
+    
+## Proper way to update class variable by instance
+alien1.__class__.legs = 99
+print(alien1.legs, alien2.legs)
+
+#-------------------------------------------
+
+print()
+# Attribute value modification
+
+class Person:
+    def __init__(self, name, age): 
+        self.name = name 
+        self.age  = age 
+        
+    def change_name(self, name):
+        self.name = name 
+        
+    def details(self):
+        print (self.name, self.age, sep=' | ')
+        
+## Directly change
+person_x = Person(name='Stone Cold', age=49)
+person_x.details()
+
+person_x.name = "Rock"
+person_x.details()
+
+## Indirectly change by instance's method
+person_x.change_name('Triple X')
+person_x.details()
+
+# Lifecycle
+class X:
+    def __init__(self, name):
+        self.name = name 
+        print (self.name + " created")
+    def __del__(self):
+        print ( self.name + " is destoryed ")
+  
+# uncomment this to check lifecycle
+# x = X('X') 
+# y = X('Y')
+print ("HELLO WORLD")
+
+def hello():
+    x = X('hello_X') 
+    y = X('hello_Y')
+hello()
+
+##  Python garbage collection happens (by reference counting)
+
+# Inheritence
+class Math: # Parent class
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y 
+    def sum(self):
+        return self.x + self.y 
+        
+class MathExtended1 (Math): # Child class
+    def __init__(self, x, y):
+        super().__init__(x, y) # super() func makes connection to parent class with child class
+        
+    def subtract(self):
+        return self.x - self.y 
+        
+math_obj = Math(2, 4)
+print ( math_obj.sum() )
+
+math_ext_obj = MathExtended1(10, 2)
+print ( math_ext_obj.subtract() )
+
+
+## Multiple Inheritance
+class MathExtra:
+    def division(self, x, y):
+        return x / y
+
+class MathExtended2 (MathExtended1, MathExtra): # Child class
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        
+    def multiplication(self):
+        return self.x * self.y 
+        
+
+math_ext2  = MathExtended2(10, 2)
+print ( "Sum ", str(math_ext2.sum()) )
+print ( "Subtract ", str(math_ext2.subtract()) )
+print ( "Multiplication ", str(math_ext2.multiplication()) )
+print ( "Division ", str(math_ext2.division(x=math_ext2.x,y=math_ext2.y)) )
+
+# Method overriding
+class Math: 
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y 
+    def sum(self):
+        return self.x + self.y 
+        
+class MathExtended1 (Math): # Child class
+    def __init__(self, x, y):
+        super().__init__(x, y)
+        
+    def subtract(self):
+        return self.x - self.y 
+        
+    def sum(self): # Override
+        return self.x + self.y + 100
+        
+    def show_all(self):
+        print ("Sum: " + str(self.sum()))
+        print ("Subtract: " + str( self.subtract() ))
+        # calling method from same class need self. at the front
+'''
+# Method overloading do not need in Python
+    def sum(self, z):
+        return self.x + self.y + self.z
+'''
+    
+math_ext_obj = MathExtended1(10, 2)
+math_ext_obj.show_all()
+
+# Private and Public
+'''
+leading underscore before attributes and methods are
+private by convention
+'''
+class Math: 
+    def __init__(self, x, y):
+        self._x = x 
+        self._y = y 
+    def sum(self):
+        return self._x + self._y 
+
+math = Math(2, 4)
+print ( math._x )
+
+print()
+# Object comparison '==' vs 'is'
+# == is used to check equality
+# 'is' is used to check identity
+
+x = [1, 2, 3]
+xx = x
+
+print(x == xx)
+print(x is xx)
+
+y = list(x)
+print(x == y)
+print(x is y)
+
+print()
+# String conversion of a class by __str__ method
+l = [1, 2, 3]
+print(l)
+
+class Person:
+    def __init__(self, name):
+        self.name = name 
+        
+    def __str__(self):
+        return f'{self.__class__.__name__} class, obj name:  {self.name}'
+        
+p1 = Person("Bill")
+p2 = Person("Steve")
+
+print(p1)
+print(p2
+------------------------
+ --------------------
+#      Modules
+# --------------------
+'''
+Modules are Python source files contains functions, classes or global variables. Modules can be imported by other program.
+Here we created mymath.py as a module
+'''
+
+# --------------------
+#      Namespace
+# --------------------
+
+'''
+When we import a module the file we imported its name is called namespace. See the example below
+'''
+
+# --------------------
+#      Import
+# --------------------
+
+## Import entire module
+import mymath # mymath is a filename and namespace
+
+print ( mymath.sum(10, 2) ) # using mymath namespace we can call its function
+print ( mymath.subtract(10, 2) )
+
+
+## Import specific functions
+from mymath import subtract
+
+print ( subtract(2, 1) )
+
+
+## Import all functions
+from mymath import *
+
+print ( sum(2, 5) )
+print ( subtract(29, 1) )
+
+## Import class from modules
+from mymath import MyMathClass
+
+mmc = MyMathClass(4, 2)
+print ( mmc.sum() )
+print ( mmc.subtract() )
+
+## Alias
+
+from mymath import subtract as sb # sb alias
+
+print ( sb(10, 5) )
+
+# --------------------
+#      Package
+# --------------------
+
+'''
+Python package is simply a folder/directory contains modules. 
+But a directory must need to have a file named __init__.py to treat the directory as package
+__init__.py file must contains the modules import statements
+We created a package named mspack contains 2 modules
+mspack/msmath.py
+mspack/msstring.py
+'''
+## import specific modules in a package
+from mspack import msmath
+from mspack import msstring
+
+print ( msmath.sum(10, 2) )
+print ( msmath.subtract(10, 2) )
+print ( msmath.multiplication(2, 2))
+
+msstring.print_chracters("BANGLADESH")
+
+## import all modules in a package
+# Write the following line in __init__.py file
+# __all__ = ["msmath", "msstring"] 
+
+from mspack import *
+
+print ( msmath.sum(10, 2) )
+print ( msmath.subtract(10, 2) )
+print ( msmath.multiplication(2, 2))
+
+msstring.print_chracters("BANGLADESH")
+
+## import all functions from a package/module
+from mspack.msmath import *
+
+print ( sum(10, 2) )
+print ( subtract(10, 2) )
+print ( multiplication(2, 2))
+
+# --------------------------------
+#      Python Standard Library
+# --------------------------------
+'''
+The modules which automatically included when Python installed 
+https://docs.python.org/3/library/index.html
+'''
+from random import choice
+list = [1, 2, 3, 4, 5]
+
+for x in range(0, 3):
+    print ( choice(list) )
+------------------
+# --------------------
+#      mymath module
+# --------------------
+
+def sum(x, y):
+    return x + y 
+    
+def subtract(x, y):
+    return x - y 
+     
+    
+class MyMathClass:
+    def __init__(self, x, y):
+        self.x = x 
+        self.y = y 
+        
+    def sum(self):
+        return self.x + self.y 
+        
+    def subtract(self):
+        return self.x - self.y
+----------------------
