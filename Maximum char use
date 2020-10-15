@@ -1,0 +1,25 @@
+//Most used Character
+//javascript
+// Time: O(n), Space: O(n)
+function maxChar(str) {
+    let dict = {};
+    
+    for (let char of str) {
+        dict[char] = dict[char] + 1 || 1
+    }
+    
+    let mChar = '';
+    let temp = 0;
+    
+    for (let key in dict) {
+        if (dict[key] > temp) {
+            temp = dict[key];
+            mChar = key;
+        }
+    }
+    
+    return mChar;
+}
+
+console.log(maxChar('abcdeeeeeeeefjg')); // e
+console.log(maxChar('orange 135244')); // 4
