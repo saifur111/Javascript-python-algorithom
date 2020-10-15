@@ -1,0 +1,32 @@
+//javascript
+// Solution 1
+// Time: O(n), Space: O(n)
+function isPalindrome(str) {
+    let strRev = str.split('').reverse().join('');
+    
+    if (str === strRev){
+        return true;
+    }
+    return false;
+}
+
+// Solution 2
+// Time: O(n), Space: O(1)
+function isPalindrome(str) {
+    let mid = parseInt(str.length / 2)
+    
+    for (let i = 0; i < mid; ++i) {
+        let firstChar = str[i];
+        let compareChar = str[str.length-i-1];
+        
+        if (firstChar !== compareChar){
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+console.log(isPalindrome('abba')); // true
+console.log(isPalindrome('bcecb')); // true 
+console.log(isPalindrome('abxhkbba')); // false
